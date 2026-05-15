@@ -33,15 +33,18 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .screen{display:none;flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:80px;-webkit-overflow-scrolling:touch}
 .screen.active{display:block}
 
-.topbar{padding:52px 16px 14px;background:var(--surf);border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:10}
-.topbar-row{display:flex;align-items:flex-end;justify-content:space-between}
+/* 합쳐진 sticky 상단바 */
+.topbar{background:var(--surf);border-bottom:0.5px solid var(--border);position:sticky;top:0;z-index:10}
+.topbar-main{padding:18px 16px 12px;display:flex;align-items:center;justify-content:space-between}
 .topbar-title{font-size:22px;font-weight:600;letter-spacing:-.5px}
-.topbar-sub{font-size:13px;color:var(--text2);margin-top:3px}
+.topbar-summary{padding:0 16px 14px;display:flex;justify-content:space-between;align-items:flex-end;border-top:0.5px solid var(--border);padding-top:12px}
+.topbar-summary-left{flex:1}
+.topbar-summary-lbl{font-size:12px;color:var(--text2);margin-bottom:2px}
+.topbar-summary-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.topbar-summary-val{font-size:24px;font-weight:600;line-height:1.1}
 
 .sync-btn{display:flex;align-items:center;gap:5px;font-size:13px;font-family:inherit;color:var(--text2);background:none;border:0.5px solid var(--border2);border-radius:99px;padding:7px 14px;cursor:pointer;min-height:36px}
 .sync-btn.syncing{color:var(--green);border-color:var(--green)}
-.sync-btn:active{opacity:.7}
-
 .add-btn{display:flex;align-items:center;gap:4px;font-size:13px;font-family:inherit;color:var(--text2);background:none;border:0.5px solid var(--border2);border-radius:99px;padding:7px 14px;cursor:pointer;min-height:36px}
 
 .person-tabs{display:flex;gap:8px;padding:12px 16px}
@@ -111,7 +114,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .badge-saved{background:var(--surf2);color:var(--text3)}
 .badge-empty{background:var(--amber-bg);color:var(--amber-txt)}
 
-.save-bar{display:flex;align-items:center;justify-content:space-between;padding:0 16px 12px}
+.save-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
 .save-hint{font-size:12px;color:var(--text3)}
 .save-btn{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:500;font-family:inherit;background:var(--green);color:#fff;border:none;border-radius:99px;padding:10px 20px;cursor:pointer;min-height:44px}
 
@@ -133,11 +136,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .acc-lbl{font-size:12px;color:var(--text2);margin-bottom:6px}
 .acc-val{font-size:20px;font-weight:600}
 .acc-sub{font-size:11px;color:var(--text3);margin-top:4px}
-
-.nw-card{margin:0 16px 8px;background:var(--surf2);border-radius:var(--r);padding:16px;display:flex;justify-content:space-between;align-items:center}
-.nw-left .nw-lbl{font-size:13px;color:var(--text2);margin-bottom:3px}
-.nw-left .nw-sub{font-size:12px;color:var(--text3)}
-.nw-val{font-size:28px;font-weight:600}
 
 .strip-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:0 16px;margin-bottom:12px}
 .sbox{background:var(--surf2);border-radius:var(--rsm);padding:12px}
@@ -183,6 +181,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .cur-krw{background:var(--blue-bg);color:var(--blue);border:0.5px solid var(--blue-bd)}
 .cur-usd{background:var(--amber-bg);color:var(--amber-txt);border:0.5px solid var(--amber-bd)}
 .detect-hint{font-size:11px;color:var(--green-txt);margin-top:6px;display:flex;align-items:center;gap:4px}
+.ticker-help-btn{font-size:11px;color:var(--blue);background:none;border:none;padding:0;cursor:pointer;text-decoration:underline;font-family:inherit;margin-left:6px}
 .price-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surf2);border-top:0.5px solid var(--border)}
 .price-lbl{font-size:13px;color:var(--text2)}
 .price-right{display:flex;align-items:center;gap:8px}
@@ -230,6 +229,12 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .modal-btn{flex:1;padding:10px;font-size:14px;font-weight:500;font-family:inherit;border:none;border-radius:var(--rsm);cursor:pointer}
 .modal-primary{background:var(--green);color:#fff}
 .modal-secondary{background:var(--surf2);color:var(--text2)}
+
+.ticker-help-content{font-size:13px;color:var(--text);line-height:1.6}
+.ticker-help-content table{width:100%;margin:10px 0;border-collapse:collapse}
+.ticker-help-content th,.ticker-help-content td{padding:8px;text-align:left;border-bottom:0.5px solid var(--border);font-size:13px}
+.ticker-help-content th{color:var(--text2);font-weight:500;font-size:11px;text-transform:uppercase}
+.ticker-help-content code{background:var(--surf2);padding:2px 6px;border-radius:4px;font-family:monospace;font-size:12px}
 </style>
 </head>
 <body>
@@ -239,15 +244,13 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   <!-- 가계 -->
   <div id="s-budget" class="screen active">
     <div class="topbar">
-      <div class="topbar-row">
-        <div>
-          <div class="topbar-title">가계</div>
-          <div class="topbar-sub" id="budget-sub"></div>
-        </div>
+      <div class="topbar-main">
+        <div class="topbar-title">가계</div>
         <button class="sync-btn" id="sync-btn" onclick="syncData()">
           <i class="ti ti-refresh" style="font-size:15px" aria-hidden="true"></i> 동기화
         </button>
       </div>
+      <div class="topbar-summary" id="budget-sticky-summary"></div>
     </div>
     <div class="person-tabs" id="person-tabs"></div>
     <div id="budget-body"></div>
@@ -255,14 +258,19 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 
   <!-- 월별 -->
   <div id="s-monthly" class="screen">
-    <div class="topbar"><div class="topbar-title">월별 현황</div></div>
+    <div class="topbar">
+      <div class="topbar-main">
+        <div class="topbar-title">월별 현황</div>
+      </div>
+      <div class="topbar-summary" id="monthly-sticky-summary"></div>
+    </div>
     <div id="monthly-content"></div>
   </div>
 
   <!-- 저축 -->
   <div id="s-savings" class="screen">
     <div class="topbar">
-      <div class="topbar-row">
+      <div class="topbar-main">
         <div class="topbar-title">저축</div>
         <button class="add-btn" onclick="addSaving()"><i class="ti ti-plus" aria-hidden="true"></i> 추가</button>
       </div>
@@ -275,7 +283,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
   <!-- 투자 -->
   <div id="s-invest" class="screen">
     <div class="topbar">
-      <div class="topbar-row">
+      <div class="topbar-main">
         <div class="topbar-title">투자</div>
         <button class="add-btn" onclick="addStock()"><i class="ti ti-plus" aria-hidden="true"></i> 추가</button>
       </div>
@@ -304,7 +312,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
       <i class="ti ti-calendar-stats bot-icon" aria-hidden="true"></i><span class="bot-lbl">월별</span>
     </button>
     <button class="bot-btn" id="nav-savings" onclick="switchScreen('savings')">
-      <i class="ti ti-piggy-bank bot-icon" aria-hidden="true"></i><span class="bot-lbl">저축</span>
+      <i class="ti ti-pig-money bot-icon" aria-hidden="true"></i><span class="bot-lbl">저축</span>
     </button>
     <button class="bot-btn" id="nav-invest" onclick="switchScreen('invest')">
       <i class="ti ti-chart-line bot-icon" aria-hidden="true"></i><span class="bot-lbl">투자</span>
@@ -323,7 +331,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     <div class="setting-row">
       <div class="setting-lbl">Google Apps Script URL</div>
       <input class="setting-in" id="gas-url-input" placeholder="https://script.google.com/macros/s/..." type="url"/>
-      <div class="setting-hint">설정 가이드 STEP 1-4에서 복사한 URL을 붙여넣으세요.</div>
+      <div class="setting-hint">설정 가이드 STEP 1-5에서 복사한 URL을 붙여넣으세요.</div>
     </div>
     <button class="save-settings-btn" onclick="saveSettings()">저장</button>
     <div style="margin-top:20px;padding-top:20px;border-top:0.5px solid var(--border)">
@@ -342,6 +350,31 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     <div class="modal-actions">
       <button class="modal-btn modal-secondary" onclick="closeRateModal()">취소</button>
       <button class="modal-btn modal-primary" onclick="saveRate()">저장</button>
+    </div>
+  </div>
+</div>
+
+<!-- 티커 안내 -->
+<div class="overlay" id="ticker-help-overlay" onclick="closeTickerHelp(event)">
+  <div class="sheet" onclick="event.stopPropagation()">
+    <button class="close-btn" onclick="closeTickerHelp()">×</button>
+    <div class="sheet-title">티커 심볼이란?</div>
+    <div class="ticker-help-content">
+      <p>티커 심볼은 주식을 거래소에서 구분하는 <strong>고유 코드</strong>예요.</p>
+      <table>
+        <tr><th>종목</th><th>티커</th></tr>
+        <tr><td>삼성전자 (코스피)</td><td><code>005930.KS</code></td></tr>
+        <tr><td>SK하이닉스 (코스피)</td><td><code>000660.KS</code></td></tr>
+        <tr><td>카카오 (코스피)</td><td><code>035720.KS</code></td></tr>
+        <tr><td>에코프로비엠 (코스닥)</td><td><code>247540.KQ</code></td></tr>
+        <tr><td>Apple</td><td><code>AAPL</code></td></tr>
+        <tr><td>NVIDIA</td><td><code>NVDA</code></td></tr>
+        <tr><td>Tesla</td><td><code>TSLA</code></td></tr>
+        <tr><td>S&amp;P500 ETF</td><td><code>SPY</code></td></tr>
+      </table>
+      <p style="margin-top:12px"><strong>찾는 방법</strong></p>
+      <p style="margin-top:4px">• <strong>한국 주식</strong>: 네이버 증권 검색 → URL 끝 6자리 + <code>.KS</code>(코스피) 또는 <code>.KQ</code>(코스닥)</p>
+      <p style="margin-top:4px">• <strong>미국 주식</strong>: 구글에서 "종목명 ticker" 검색</p>
     </div>
   </div>
 </div>
@@ -458,11 +491,7 @@ async function fetchPrices(){
       if(json.rate){USD_KRW=json.rate;localStorage.setItem('usd_krw',USD_KRW);}
       st.investments.forEach(s=>{
         const d=json.prices[s.ticker];
-        if(d){
-          s.currentPrice=d.price;
-          s.change=d.change;
-          s.changeP=d.changeP;
-        }
+        if(d){s.currentPrice=d.price;s.change=d.change;s.changeP=d.changeP;}
       });
       lastPriceUpdate=new Date().toISOString();
       localStorage.setItem('last_price_update',lastPriceUpdate);
@@ -487,44 +516,15 @@ function switchScreen(s){
   if(s==='invest')renderInvest();
 }
 
-function openSettings(){
-  document.getElementById('gas-url-input').value=GAS_URL;
-  document.getElementById('settings-overlay').classList.add('show');
-}
-function closeSettings(e){
-  if(!e||e.target===document.getElementById('settings-overlay')||e.currentTarget?.classList.contains('close-btn'))
-    document.getElementById('settings-overlay').classList.remove('show');
-}
-function saveSettings(){
-  GAS_URL=document.getElementById('gas-url-input').value.trim();
-  localStorage.setItem('gas_url',GAS_URL);
-  document.getElementById('settings-overlay').classList.remove('show');
-  toast('설정 저장됨');
-  if(GAS_URL)loadRemote();
-}
-function clearLocalData(){
-  if(!confirm('로컬 데이터를 모두 초기화할까요?'))return;
-  localStorage.removeItem('kbl_data');
-  st=JSON.parse(JSON.stringify(DEFAULT_DATA));
-  renderAll();
-  document.getElementById('settings-overlay').classList.remove('show');
-  toast('초기화 완료');
-}
-
-function openRateModal(){
-  document.getElementById('rate-input').value=USD_KRW;
-  document.getElementById('rate-modal').classList.add('show');
-}
-function closeRateModal(e){
-  if(!e||e.target===document.getElementById('rate-modal'))
-    document.getElementById('rate-modal').classList.remove('show');
-}
-function saveRate(){
-  const v=parseFloat(document.getElementById('rate-input').value);
-  if(v>0){USD_KRW=v;localStorage.setItem('usd_krw',USD_KRW);}
-  closeRateModal();
-  renderInvest();
-}
+function openSettings(){document.getElementById('gas-url-input').value=GAS_URL;document.getElementById('settings-overlay').classList.add('show');}
+function closeSettings(e){if(!e||e.target===document.getElementById('settings-overlay')||e.currentTarget?.classList.contains('close-btn'))document.getElementById('settings-overlay').classList.remove('show');}
+function saveSettings(){GAS_URL=document.getElementById('gas-url-input').value.trim();localStorage.setItem('gas_url',GAS_URL);document.getElementById('settings-overlay').classList.remove('show');toast('설정 저장됨');if(GAS_URL)loadRemote();}
+function clearLocalData(){if(!confirm('로컬 데이터를 모두 초기화할까요?'))return;localStorage.removeItem('kbl_data');st=JSON.parse(JSON.stringify(DEFAULT_DATA));renderAll();document.getElementById('settings-overlay').classList.remove('show');toast('초기화 완료');}
+function openRateModal(){document.getElementById('rate-input').value=USD_KRW;document.getElementById('rate-modal').classList.add('show');}
+function closeRateModal(e){if(!e||e.target===document.getElementById('rate-modal'))document.getElementById('rate-modal').classList.remove('show');}
+function saveRate(){const v=parseFloat(document.getElementById('rate-input').value);if(v>0){USD_KRW=v;localStorage.setItem('usd_krw',USD_KRW);}closeRateModal();renderInvest();}
+function openTickerHelp(){document.getElementById('ticker-help-overlay').classList.add('show');}
+function closeTickerHelp(e){if(!e||e.target===document.getElementById('ticker-help-overlay')||e.currentTarget?.classList.contains('close-btn'))document.getElementById('ticker-help-overlay').classList.remove('show');}
 
 function liveSnap(){
   const[h,w]=st.persons;
@@ -546,12 +546,55 @@ function getStockVal(s){return s.currentPrice!=null?toMan(s.shares*s.currentPric
 
 function pInfo(p){return{ac:p.id==='h'?'av-h':'av-w',ini:p.id==='h'?'남':'아',actCls:p.id==='h'?'act-h':'act-w'}}
 
-function renderBudget(){
+function updateBudgetSticky(){
   const[h,w]=st.persons;
   const hE=h.expenses.reduce((s,e)=>s+e.amount,0),wE=w.expenses.reduce((s,e)=>s+e.amount,0);
   const tS=h.salary+w.salary,tE=hE+wE,tB=tS-tE;
-  document.getElementById('budget-sub').textContent='합산 잔액 '+fmt(tB);
+  document.getElementById('budget-sticky-summary').innerHTML=`
+    <div class="topbar-summary-left">
+      <div class="topbar-summary-lbl">합산 잔액</div>
+      <div class="topbar-summary-sub">수입 ${fmt(tS)} − 지출 ${fmt(tE)}</div>
+    </div>
+    <div class="topbar-summary-val ${tB>=0?'pos':'neg'}">${fmt(tB)}</div>`;
 
+  // 인물 탭 잔액 업데이트
+  st.persons.forEach((p,idx)=>{
+    const pe=p.expenses.reduce((s,e)=>s+e.amount,0),bal=p.salary-pe;
+    const tab=document.querySelectorAll('#person-tabs .ptab')[idx];
+    if(tab){
+      const balEl=tab.querySelector('.ptab-bal');
+      if(balEl){balEl.textContent=fmt(bal);balEl.className='ptab-bal '+(bal>=0?'pos':'neg');}
+    }
+  });
+
+  // 하단 요약 블록 업데이트
+  const p=st.persons.find(x=>x.id===curPerson);
+  if(p){
+    const te=p.expenses.reduce((s,e)=>s+e.amount,0),bal=p.salary-te;
+    const block=document.querySelector('#budget-body .summary-block');
+    if(block){
+      const rows=block.querySelectorAll('.s-row');
+      if(rows[0])rows[0].querySelector('.s-val').textContent=fmt(p.salary);
+      if(rows[1])rows[1].querySelector('.s-val').textContent='− '+fmt(te);
+      const lastRow=block.querySelector('.s-row:last-child');
+      if(lastRow){
+        const valEl=lastRow.querySelector('.s-total-val');
+        if(valEl){valEl.textContent=fmt(bal);valEl.className='s-total-val '+(bal>=0?'pos':'neg');}
+      }
+    }
+    const combCard=document.querySelector('#budget-body .comb-card');
+    if(combCard){
+      const combRows=combCard.querySelectorAll('.comb-row');
+      if(combRows[0])combRows[0].querySelector('span:last-child').textContent=fmt(tS);
+      if(combRows[1])combRows[1].querySelector('span:last-child').textContent='− '+fmt(tE);
+      const combFinal=combCard.querySelector('.comb-final span:last-child');
+      if(combFinal){combFinal.textContent=fmt(tB);combFinal.className=tB>=0?'pos':'neg';combFinal.style.fontSize='28px';combFinal.style.fontWeight='600';}
+    }
+  }
+}
+
+function renderBudget(){
+  updateBudgetSticky();
   document.getElementById('person-tabs').innerHTML=st.persons.map(p=>{
     const pe=p.expenses.reduce((s,e)=>s+e.amount,0),bal=p.salary-pe;
     const {ac,ini,actCls}=pInfo(p);
@@ -566,6 +609,7 @@ function renderBudget(){
   const p=st.persons.find(x=>x.id===curPerson);
   const te=p.expenses.reduce((s,e)=>s+e.amount,0),bal=p.salary-te;
   const debt=p.expenses.filter(e=>e.inst.on&&e.inst.principal>0).reduce((s,e)=>s+e.inst.principal,0);
+  const[h,w]=st.persons;
   const allDebt=[...h.expenses,...w.expenses].filter(e=>e.inst.on&&e.inst.principal>0).reduce((s,e)=>s+e.inst.principal,0);
 
   const exps=p.expenses.map(e=>{
@@ -577,18 +621,18 @@ function renderBudget(){
       ${e.inst.months>0&&e.inst.principal>0?`<div class="inst-dot"></div><span>월 ${fmt(Math.round(e.inst.principal/e.inst.months*10)/10)}</span>`:''}
     </div>`:'';
     const iPanel=io?`<div class="inst-panel">
-      <div class="inst-field"><div class="inst-lbl">남은 원금</div><div class="inst-row"><input class="inst-in" type="number" placeholder="0" value="${e.inst.principal||''}" oninput="upInst('${p.id}',${e.id},'principal',this.value)"/><span style="font-size:13px;color:var(--text2)">만</span></div></div>
-      <div class="inst-field"><div class="inst-lbl">잔여 기간</div><div class="inst-row"><input class="inst-in" type="number" placeholder="0" value="${e.inst.months||''}" oninput="upInst('${p.id}',${e.id},'months',this.value)"/><span style="font-size:13px;color:var(--text2)">개월</span></div></div>
+      <div class="inst-field"><div class="inst-lbl">남은 원금</div><div class="inst-row"><input class="inst-in" type="number" placeholder="0" value="${e.inst.principal||''}" oninput="upInstSilent('${p.id}',${e.id},'principal',this.value)" onblur="renderBudget()"/><span style="font-size:13px;color:var(--text2)">만</span></div></div>
+      <div class="inst-field"><div class="inst-lbl">잔여 기간</div><div class="inst-row"><input class="inst-in" type="number" placeholder="0" value="${e.inst.months||''}" oninput="upInstSilent('${p.id}',${e.id},'months',this.value)" onblur="renderBudget()"/><span style="font-size:13px;color:var(--text2)">개월</span></div></div>
     </div>${chip}`:'';
     return`<div class="exp-card">
       <div class="exp-main">
-        <input class="exp-name-in" placeholder="항목명" value="${e.name}" oninput="upExp('${p.id}',${e.id},'name',this.value)"/>
-        <input class="exp-amount-in" type="number" placeholder="0" value="${e.amount||''}" oninput="upExp('${p.id}',${e.id},'amount',this.value)"/>
+        <input class="exp-name-in" placeholder="항목명" value="${e.name}" oninput="upExpSilent('${p.id}',${e.id},'name',this.value)"/>
+        <input class="exp-amount-in" type="number" inputmode="decimal" placeholder="0" value="${e.amount||''}" oninput="upExpAmountSilent('${p.id}',${e.id},this.value)"/>
         <span class="exp-unit">만</span>
         <button class="icon-btn${io?' on':''}" onclick="toggleInst('${p.id}',${e.id})"><i class="ti ti-credit-card" style="font-size:18px" aria-hidden="true"></i></button>
         <button class="icon-btn del" onclick="delExp('${p.id}',${e.id})"><i class="ti ti-trash" style="font-size:18px" aria-hidden="true"></i></button>
       </div>
-      <div class="exp-memo-row"><input class="exp-memo-in" placeholder="메모 (선택)" value="${e.note}" oninput="upExp('${p.id}',${e.id},'note',this.value)"/></div>
+      <div class="exp-memo-row"><input class="exp-memo-in" placeholder="메모 (선택)" value="${e.note}" oninput="upExpSilent('${p.id}',${e.id},'note',this.value)"/></div>
       ${iPanel}
     </div>`;
   }).join('');
@@ -596,7 +640,7 @@ function renderBudget(){
   document.getElementById('budget-body').innerHTML=`
     <div class="salary-card">
       <span class="salary-lbl">${p.label} 월급</span>
-      <input class="salary-in" type="number" value="${p.salary}" oninput="upSal('${p.id}',this.value)"/>
+      <input class="salary-in" type="number" inputmode="decimal" value="${p.salary}" oninput="upSalSilent('${p.id}',this.value)"/>
       <span class="salary-unit">만원</span>
     </div>
     <div class="sec"><div class="sec-hd">
@@ -612,11 +656,11 @@ function renderBudget(){
     </div>
     <div class="comb-card">
       <div style="font-size:11px;font-weight:600;color:var(--text2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px">합산</div>
-      <div class="comb-row"><span>총 수입</span><span style="font-weight:500">${fmt(tS)}</span></div>
-      <div class="comb-row"><span>총 지출</span><span style="font-weight:500">− ${fmt(tE)}</span></div>
+      <div class="comb-row"><span>총 수입</span><span style="font-weight:500">${fmt(h.salary+w.salary)}</span></div>
+      <div class="comb-row"><span>총 지출</span><span style="font-weight:500">− ${fmt([...h.expenses,...w.expenses].reduce((s,e)=>s+e.amount,0))}</span></div>
       <div class="comb-final">
         <span style="font-size:16px;font-weight:600">합산 잔액</span>
-        <span style="font-size:28px;font-weight:600" class="${tB>=0?'pos':'neg'}">${fmt(tB)}</span>
+        <span style="font-size:28px;font-weight:600" class="${(h.salary+w.salary-[...h.expenses,...w.expenses].reduce((s,e)=>s+e.amount,0))>=0?'pos':'neg'}">${fmt(h.salary+w.salary-[...h.expenses,...w.expenses].reduce((s,e)=>s+e.amount,0))}</span>
       </div>
       ${allDebt>0?`<div class="comb-debt"><span>잔여 할부 원금 합계</span><span>${fmt(allDebt)}</span></div>`:''}
     </div>`;
@@ -624,12 +668,34 @@ function renderBudget(){
 
 function selectPerson(id){curPerson=id;renderBudget();}
 
+function updateMonthlySticky(data){
+  if(!data){
+    document.getElementById('monthly-sticky-summary').innerHTML=`
+      <div class="topbar-summary-left">
+        <div class="topbar-summary-lbl">순자산 추정</div>
+        <div class="topbar-summary-sub">기록 없음</div>
+      </div>
+      <div class="topbar-summary-val" style="color:var(--text3)">—</div>`;
+    return;
+  }
+  const nw=data.savAccumulated+data.invCurrent-data.debt;
+  const nwc=nw>=0?'pos':'neg';
+  document.getElementById('monthly-sticky-summary').innerHTML=`
+    <div class="topbar-summary-left">
+      <div class="topbar-summary-lbl">순자산 추정</div>
+      <div class="topbar-summary-sub">저축+투자${data.debt>0?'−부채':''}</div>
+    </div>
+    <div class="topbar-summary-val ${nwc}">${fmt(nw)}</div>`;
+}
+
 function renderMonthly(){
   const NOW=nowMonth();
   const isNow=curMonth===NOW;
   const saved=st.history[curMonth];
   const data=isNow?liveSnap():saved;
   const prev=st.history[prevM(curMonth)];
+
+  updateMonthlySticky(data);
 
   const badge=isNow?`<div class="month-badge badge-live">실시간</div>`
     :saved?`<div class="month-badge badge-saved">저장됨</div>`
@@ -651,8 +717,6 @@ function renderMonthly(){
   }
 
   const fc=data.free>=0?'pos':'neg';
-  const nw=data.savAccumulated+data.invCurrent-data.debt;
-  const nwc=nw>=0?'pos':'neg';
   const invPnl=data.invCurrent-data.invInvested;
   const invC=invPnl>=0?'pos':'neg';
 
@@ -680,38 +744,30 @@ function renderMonthly(){
       <div class="metric-box"><div class="metric-lbl">가용 잔액</div><div class="metric-val ${fc}">${fmt(data.free)}</div><div class="metric-sub">수입 − 지출 − 저축</div></div>
     </div>
     ${cmpSec}
-    <div class="sec" style="margin-top:4px"><div class="sec-hd"><span class="sec-title">누적 자산</span></div></div>
+    <div class="sec" style="margin-top:4px"><div class="sec-hd"><span class="sec-title">누적 자산 상세</span></div></div>
     <div class="acc-2">
       <div class="acc-box"><div class="acc-lbl">누적 저축</div><div class="acc-val">${fmt(data.savAccumulated)}</div></div>
       <div class="acc-box"><div class="acc-lbl">투자 평가</div><div class="acc-val">${fmt(data.invCurrent)}</div><div class="acc-sub ${invC}">${invPnl>=0?'+':''}${fmt(invPnl)}</div></div>
       ${data.debt>0?`<div class="acc-box"><div class="acc-lbl">잔여 원금</div><div class="acc-val neg">−${fmt(data.debt)}</div></div>`:''}
-    </div>
-    <div class="nw-card">
-      <div class="nw-left"><div class="nw-lbl">순자산 추정</div><div class="nw-sub">저축+투자${data.debt>0?'−부채':''}</div></div>
-      <div class="nw-val ${nwc}">${fmt(nw)}</div>
     </div>`;
 }
 function goMonth(d){curMonth=d==='prev'?prevM(curMonth):nextM(curMonth);renderMonthly();}
 
 function renderSavings(){
-  const tA=st.savings.reduce((s,v)=>s+v.accumulated,0),tM=st.savings.reduce((s,v)=>s+v.monthly,0);
-  document.getElementById('sav-strip').innerHTML=`
-    <div class="sbox"><div class="sbox-lbl">항목</div><div class="sbox-val">${st.savings.length}개</div></div>
-    <div class="sbox"><div class="sbox-lbl">월 납입</div><div class="sbox-val pos">${fmt(tM)}</div></div>
-    <div class="sbox"><div class="sbox-lbl">누적</div><div class="sbox-val">${fmt(tA)}</div></div>`;
-  if(!st.savings.length){document.getElementById('sav-list').innerHTML='<div class="empty-state"><i class="ti ti-piggy-bank" aria-hidden="true"></i><p>저축 항목을 추가해 주세요</p></div>';return;}
+  renderSavStrip();
+  if(!st.savings.length){document.getElementById('sav-list').innerHTML='<div class="empty-state"><i class="ti ti-pig-money" aria-hidden="true"></i><p>저축 항목을 추가해 주세요</p></div>';return;}
   document.getElementById('sav-list').innerHTML=st.savings.map(s=>{
-    const today=new Date(),sd=new Date(s.start+'-01'),ed=s.end?new Date(s.end+'-01'):null;
+    const today=new Date(),sd=s.start?new Date(s.start+'-01'):null,ed=s.end?new Date(s.end+'-01'):null;
     const pct=sd&&ed?Math.max(0,Math.min(100,Math.round((Math.min(today,ed)-sd)/(ed-sd)*100))):0;
     const rem=ed?Math.max(0,Math.round((ed-today)/(1000*60*60*24*30))):'-';
     return`<div class="item-card">
       <div class="item-hd">
-        <input class="item-name-in" placeholder="저축명" value="${s.name}" oninput="upSav(${s.id},'name',this.value)"/>
+        <input class="item-name-in" placeholder="저축명" value="${s.name}" oninput="upSavSilent(${s.id},'name',this.value)"/>
         <div class="field-grid">
-          <div class="field-box"><div class="field-lbl">시작일</div><input class="field-in" type="month" value="${s.start}" oninput="upSav(${s.id},'start',this.value)"/></div>
-          <div class="field-box"><div class="field-lbl">만기일</div><input class="field-in" type="month" value="${s.end}" oninput="upSav(${s.id},'end',this.value)"/></div>
-          <div class="field-box"><div class="field-lbl">월 납입 (만원)</div><input class="field-in" type="number" placeholder="0" value="${s.monthly||''}" oninput="upSav(${s.id},'monthly',this.value)"/></div>
-          <div class="field-box"><div class="field-lbl">누적 금액 (만원)</div><input class="field-in" type="number" placeholder="0" value="${s.accumulated||''}" oninput="upSav(${s.id},'accumulated',this.value)"/></div>
+          <div class="field-box"><div class="field-lbl">시작일</div><input class="field-in" type="month" value="${s.start}" onchange="upSavSilent(${s.id},'start',this.value);renderSavings()"/></div>
+          <div class="field-box"><div class="field-lbl">만기일</div><input class="field-in" type="month" value="${s.end}" onchange="upSavSilent(${s.id},'end',this.value);renderSavings()"/></div>
+          <div class="field-box"><div class="field-lbl">월 납입 (만원)</div><input class="field-in" type="number" inputmode="decimal" placeholder="0" value="${s.monthly||''}" oninput="upSavSilent(${s.id},'monthly',this.value);renderSavStrip()"/></div>
+          <div class="field-box"><div class="field-lbl">누적 금액 (만원)</div><input class="field-in" type="number" inputmode="decimal" placeholder="0" value="${s.accumulated||''}" oninput="upSavSilent(${s.id},'accumulated',this.value);renderSavStrip()"/></div>
         </div>
       </div>
       <div class="item-prog"><div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div></div>
@@ -721,6 +777,14 @@ function renderSavings(){
   }).join('');
 }
 
+function renderSavStrip(){
+  const tA=st.savings.reduce((s,v)=>s+v.accumulated,0),tM=st.savings.reduce((s,v)=>s+v.monthly,0);
+  document.getElementById('sav-strip').innerHTML=`
+    <div class="sbox"><div class="sbox-lbl">항목</div><div class="sbox-val">${st.savings.length}개</div></div>
+    <div class="sbox"><div class="sbox-lbl">월 납입</div><div class="sbox-val pos">${fmt(tM)}</div></div>
+    <div class="sbox"><div class="sbox-lbl">누적</div><div class="sbox-val">${fmt(tA)}</div></div>`;
+}
+
 function renderInvest(){
   document.getElementById('rate-val').textContent=USD_KRW.toLocaleString('ko-KR')+'원 / $1';
   if(lastPriceUpdate){
@@ -728,14 +792,7 @@ function renderInvest(){
     document.getElementById('refresh-hint').textContent=`마지막 갱신: ${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
   }
 
-  const totCost=st.investments.reduce((a,s)=>a+getStockCost(s),0);
-  const totVal=st.investments.reduce((a,s)=>a+getStockVal(s),0);
-  const totPnl=totVal-totCost;
-  const sc=totPnl>=0?'pos':'neg';
-  document.getElementById('inv-strip').innerHTML=`
-    <div class="sbox"><div class="sbox-lbl">총 원금</div><div class="sbox-val">${fmt(totCost)}</div></div>
-    <div class="sbox"><div class="sbox-lbl">총 평가</div><div class="sbox-val">${fmt(totVal)}</div></div>
-    <div class="sbox"><div class="sbox-lbl">총 손익</div><div class="sbox-val ${sc}">${totPnl>=0?'+':''}${fmt(totPnl)}</div></div>`;
+  renderInvStrip();
 
   if(!st.investments.length){document.getElementById('stock-list').innerHTML='<div class="empty-state"><i class="ti ti-chart-line" aria-hidden="true"></i><p>투자 항목을 추가해 주세요</p></div>';return;}
 
@@ -765,22 +822,22 @@ function renderInvest(){
     return`<div class="stock-card">
       <div class="item-hd">
         <div class="name-ticker-row">
-          <input class="item-name-in" style="margin-bottom:0" placeholder="종목명" value="${s.name}" oninput="upStock(${s.id},'name',this.value)"/>
+          <input class="item-name-in" style="margin-bottom:0" placeholder="종목명" value="${s.name}" oninput="upStockSilent(${s.id},'name',this.value)"/>
           <span class="cur-pill ${s.currency==='KRW'?'cur-krw':'cur-usd'}">${s.currency}</span>
         </div>
         <div class="field-grid">
           <div class="field-box field-full">
-            <div class="field-lbl">티커 심볼</div>
-            <input class="field-in" placeholder="예: 005930.KS  /  AAPL" value="${s.ticker}" oninput="upStock(${s.id},'ticker',this.value)"/>
+            <div class="field-lbl">티커 심볼 <button class="ticker-help-btn" onclick="openTickerHelp()">티커가 뭐예요?</button></div>
+            <input class="field-in" placeholder="예: 005930.KS  /  AAPL" value="${s.ticker}" oninput="upTickerSilent(${s.id},this.value)" onblur="renderInvest()"/>
             ${s.ticker?`<div class="detect-hint"><i class="ti ti-circle-check" style="font-size:11px" aria-hidden="true"></i> ${s.currency==='KRW'?'한국 주식':'미국 주식'}으로 인식${s.currency==='USD'?' · 환율 적용':''}</div>`:''}
           </div>
           <div class="field-box">
             <div class="field-lbl">보유 수량 (주)</div>
-            <input class="field-in" type="number" placeholder="0" value="${s.shares||''}" oninput="upStock(${s.id},'shares',this.value)"/>
+            <input class="field-in" type="number" inputmode="decimal" placeholder="0" value="${s.shares||''}" oninput="upStockNumSilent(${s.id},'shares',this.value)"/>
           </div>
           <div class="field-box">
             <div class="field-lbl">평균단가 (${s.currency==='KRW'?'원':'달러'})</div>
-            <input class="field-in" type="number" step="${s.currency==='USD'?'0.01':'1'}" placeholder="0" value="${s.avgPrice||''}" oninput="upStock(${s.id},'avgPrice',this.value)"/>
+            <input class="field-in" type="number" inputmode="decimal" step="${s.currency==='USD'?'0.01':'1'}" placeholder="0" value="${s.avgPrice||''}" oninput="upStockNumSilent(${s.id},'avgPrice',this.value)"/>
           </div>
         </div>
       </div>
@@ -796,29 +853,63 @@ function renderInvest(){
   }).join('');
 }
 
-function upSal(pid,val){const p=st.persons.find(x=>x.id===pid);if(p){p.salary=nv(val);saveLocal();renderBudget();}}
-function upExp(pid,eid,f,val){const p=st.persons.find(x=>x.id===pid),e=p&&p.expenses.find(x=>x.id===eid);if(!e)return;e[f]=f==='amount'?nv(val):val;saveLocal();renderBudget();}
-function upInst(pid,eid,f,val){const p=st.persons.find(x=>x.id===pid),e=p&&p.expenses.find(x=>x.id===eid);if(!e)return;e.inst[f]=nv(val);saveLocal();renderBudget();}
+function renderInvStrip(){
+  const totCost=st.investments.reduce((a,s)=>a+getStockCost(s),0);
+  const totVal=st.investments.reduce((a,s)=>a+getStockVal(s),0);
+  const totPnl=totVal-totCost;
+  const sc=totPnl>=0?'pos':'neg';
+  document.getElementById('inv-strip').innerHTML=`
+    <div class="sbox"><div class="sbox-lbl">총 원금</div><div class="sbox-val">${fmt(totCost)}</div></div>
+    <div class="sbox"><div class="sbox-lbl">총 평가</div><div class="sbox-val">${fmt(totVal)}</div></div>
+    <div class="sbox"><div class="sbox-lbl">총 손익</div><div class="sbox-val ${sc}">${totPnl>=0?'+':''}${fmt(totPnl)}</div></div>`;
+}
+
+function upSalSilent(pid,val){const p=st.persons.find(x=>x.id===pid);if(p){p.salary=nv(val);saveLocal();updateBudgetSticky();}}
+function upExpSilent(pid,eid,f,val){const p=st.persons.find(x=>x.id===pid),e=p&&p.expenses.find(x=>x.id===eid);if(!e)return;e[f]=val;saveLocal();}
+function upExpAmountSilent(pid,eid,val){const p=st.persons.find(x=>x.id===pid),e=p&&p.expenses.find(x=>x.id===eid);if(!e)return;e.amount=nv(val);saveLocal();updateBudgetSticky();}
+function upInstSilent(pid,eid,f,val){const p=st.persons.find(x=>x.id===pid),e=p&&p.expenses.find(x=>x.id===eid);if(!e)return;e.inst[f]=nv(val);saveLocal();}
 function toggleInst(pid,eid){const p=st.persons.find(x=>x.id===pid),e=p&&p.expenses.find(x=>x.id===eid);if(!e)return;e.inst.on=!e.inst.on;saveLocal();renderBudget();}
 function addExp(pid){const p=st.persons.find(x=>x.id===pid);if(p){p.expenses.push({id:nid++,name:'',amount:0,note:'',inst:{on:false,principal:0,months:0}});saveLocal();renderBudget();}}
 function delExp(pid,eid){const p=st.persons.find(x=>x.id===pid);if(p){p.expenses=p.expenses.filter(e=>e.id!==eid);saveLocal();renderBudget();}}
-function upSav(id,f,val){const s=st.savings.find(x=>x.id===id);if(s){s[f]=['monthly','accumulated'].includes(f)?nv(val):val;saveLocal();renderSavings();}}
+function upSavSilent(id,f,val){const s=st.savings.find(x=>x.id===id);if(s){s[f]=['monthly','accumulated'].includes(f)?nv(val):val;saveLocal();}}
 function addSaving(){st.savings.push({id:nid++,name:'',start:'',end:'',monthly:0,accumulated:0});saveLocal();renderSavings();}
 function delSav(id){st.savings=st.savings.filter(x=>x.id!==id);saveLocal();renderSavings();}
 
-function upStock(id,f,val){
+function upStockSilent(id,f,val){const s=st.investments.find(x=>x.id===id);if(s){s[f]=val;saveLocal();}}
+function upTickerSilent(id,val){
   const s=st.investments.find(x=>x.id===id);
   if(!s)return;
-  if(['shares','avgPrice'].includes(f)){s[f]=nv(val);}
-  else{
-    s[f]=val;
-    if(f==='ticker'){
-      s.currentPrice=null;s.change=null;s.changeP=null;
-      const det=detectCurrency(val);
-      if(det)s.currency=det;
+  s.ticker=val;
+  s.currentPrice=null;s.change=null;s.changeP=null;
+  const det=detectCurrency(val);
+  if(det)s.currency=det;
+  saveLocal();
+}
+function upStockNumSilent(id,f,val){
+  const s=st.investments.find(x=>x.id===id);
+  if(s){s[f]=nv(val);saveLocal();renderInvStrip();updateStockStats(id);}
+}
+function updateStockStats(id){
+  const s=st.investments.find(x=>x.id===id);
+  if(!s)return;
+  const cards=document.querySelectorAll('#stock-list .stock-card');
+  const idx=st.investments.findIndex(x=>x.id===id);
+  const card=cards[idx];
+  if(!card)return;
+  const cost=getStockCost(s),val=getStockVal(s),pnl=val-cost;
+  const pct=cost>0?Math.round(pnl/cost*1000)/10:0;
+  const pc=pct>=0?'pos':'neg';
+  const stats=card.querySelectorAll('.istat-val');
+  if(stats[0])stats[0].textContent=fmt(cost);
+  if(stats[1])stats[1].textContent=fmt(val);
+  if(stats[2]){stats[2].textContent=(pct>=0?'+':'')+pct+'%';stats[2].className='istat-val '+pc;}
+  if(s.currency==='USD'&&s.currentPrice!=null){
+    const note=card.querySelector('.conv-note');
+    if(note){
+      note.innerHTML=`<i class="ti ti-arrow-right" style="font-size:12px" aria-hidden="true"></i>
+      ${s.shares}주 × $${s.currentPrice} × ${USD_KRW.toLocaleString('ko-KR')}원 = ${fmt(val)}`;
     }
   }
-  saveLocal();renderInvest();
 }
 function addStock(){st.investments.push({id:nid++,name:'',ticker:'',currency:'KRW',shares:0,avgPrice:0,currentPrice:null,change:null,changeP:null});saveLocal();renderInvest();}
 function delStock(id){st.investments=st.investments.filter(x=>x.id!==id);saveLocal();renderInvest();}
